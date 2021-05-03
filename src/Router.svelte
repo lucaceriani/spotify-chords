@@ -2,7 +2,7 @@
     import { Router, Route } from "svelte-routing";
     import Login from "./Login.svelte";
     import App from "./App.svelte";
-    import Playlist from "./PLaylist.svelte";
+    import Playlist from "./Playlist.svelte";
 </script>
 
 <div class="container">

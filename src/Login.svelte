@@ -10,7 +10,7 @@
             query: {
                 client_id: "f8ac1ba570f24cbd9b444418f4cfc25a",
                 response_type: "token",
-                redirect_uri: "http://localhost:5000/app",
+                redirect_uri: location.host + "/app",
                 scope: scopes,
             },
         });

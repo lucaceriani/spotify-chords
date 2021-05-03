@@ -10,7 +10,7 @@
             query: {
                 client_id: "f8ac1ba570f24cbd9b444418f4cfc25a",
                 response_type: "token",
-                redirect_uri: location.href + "/app",
+                redirect_uri: location.href + "app",
                 scope: scopes,
             },
         });

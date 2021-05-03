@@ -2310,8 +2310,8 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Please login with Spotify";
     			attr_dev(button, "class", "btn btn-large btn-success");
-    			add_location(button, file$3, 22, 4, 698);
-    			add_location(main, file$3, 21, 0, 686);
+    			add_location(button, file$3, 22, 4, 697);
+    			add_location(main, file$3, 21, 0, 685);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2359,7 +2359,7 @@ var app = (function () {
     			query: {
     				client_id: "f8ac1ba570f24cbd9b444418f4cfc25a",
     				response_type: "token",
-    				redirect_uri: location.href + "/app",
+    				redirect_uri: location.href + "app",
     				scope: scopes
     			}
     		});

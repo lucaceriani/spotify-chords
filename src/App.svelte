@@ -36,14 +36,15 @@
 </script>
 
 <!-- <pre>{JSON.stringify(parsedHash, null, '\t')}</pre> -->
-<div class="rounded" style="overflow-y: auto">
+<div style="overflow-y: auto; border-radius: 1.2rem;">
     {#each playlists.filter((p) => (selectedPlaylistId ? selectedPlaylistId == p.id : true)) as playlist}
         <div
-            class="playlist d-flex flex-column border"
+            class="playlist d-flex flex-column"
             class:h-full={!!selectedPlaylistId}
+            class:is-big={!!selectedPlaylistId}
             on:click={selectPlaylist(playlist.id)}
         >
-            <div class="d-flex px-10 py-20" class:border-bottom={!!selectedPlaylistId}>
+            <div class="d-flex p-20 border-bottom">
                 {#if playlist.images.length > 0}
                     <img src={playlist.images[0].url} alt="" class="playlist-image" />
                 {:else}
@@ -81,6 +82,10 @@
     .playlist:hover {
         background: var(--dark-color-light);
     }
+    .is-big:hover {
+        background: var(--dark-color);
+    }
+
     .playlist-name {
         font-weight: bold;
         align-self: center;

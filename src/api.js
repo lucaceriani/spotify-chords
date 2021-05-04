@@ -46,9 +46,18 @@ function getName(token, playlistId) {
     }).then(s => s.name)
 }
 
+function cleanTitle(title) {
+    return title
+        .replace(/\s+-.+/, "") // replaces: You Never Can Tell - 1964 Single Version
+        .replace(/\s+[\[\(].+/, "") // replaces: Lo Chiamavano King (His Name Is King)
+        .replace(/["']/, "") //replaces: ' and "
+        .trim()
+}
+
 
 export default {
     getPlaylists,
     getTracks,
     getName,
+    cleanTitle,
 }

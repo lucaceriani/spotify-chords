@@ -15,7 +15,7 @@
         loadMoreText = "...";
         api.getTracks(token, playlistId, next)
             .then((s) => {
-                console.log(s);
+                // console.log(s);
                 songs = [...songs, ...s.songs];
                 next = s.next;
                 loadMoreText = "Load more";
@@ -31,7 +31,7 @@
             url: baseUrl,
             query: {
                 search_type: "title",
-                value: `${song.artist} ${song.title.replace("'", "")}`,
+                value: `${song.artist} ${api.cleanTitle(song.title)}`,
             },
         });
     }

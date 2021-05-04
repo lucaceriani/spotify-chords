@@ -2558,7 +2558,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (41:4) {#each songs as song, idx}
+    // (40:4) {#each songs as song, idx}
     function create_each_block$1(ctx) {
     	let div;
     	let span;
@@ -2588,12 +2588,12 @@ var app = (function () {
     			t4 = text(" - ");
     			t5 = text(t5_value);
     			attr_dev(span, "class", "number svelte-nsen1l");
-    			add_location(span, file$3, 42, 12, 1182);
+    			add_location(span, file$3, 41, 12, 1180);
     			attr_dev(a, "target", "_blank");
     			attr_dev(a, "href", a_href_value = /*getLink*/ ctx[4](/*song*/ ctx[8]));
-    			add_location(a, file$3, 45, 12, 1266);
+    			add_location(a, file$3, 44, 12, 1264);
     			attr_dev(div, "class", "d-flex");
-    			add_location(div, file$3, 41, 8, 1148);
+    			add_location(div, file$3, 40, 8, 1146);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2630,14 +2630,14 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(41:4) {#each songs as song, idx}",
+    		source: "(40:4) {#each songs as song, idx}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (51:4) {#if next}
+    // (50:4) {#if next}
     function create_if_block$2(ctx) {
     	let div;
     	let button;
@@ -2652,9 +2652,9 @@ var app = (function () {
     			t = text(/*loadMoreText*/ ctx[2]);
     			attr_dev(button, "class", "btn m-20");
     			set_style(button, "width", "20em");
-    			add_location(button, file$3, 52, 12, 1502);
+    			add_location(button, file$3, 51, 12, 1500);
     			attr_dev(div, "class", "text-center");
-    			add_location(div, file$3, 51, 8, 1463);
+    			add_location(div, file$3, 50, 8, 1461);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2680,7 +2680,7 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(51:4) {#if next}",
+    		source: "(50:4) {#if next}",
     		ctx
     	});
 
@@ -2712,7 +2712,7 @@ var app = (function () {
     			if (if_block) if_block.c();
     			set_style(div, "overflow-y", "auto");
     			set_style(div, "heigth", "100%");
-    			add_location(div, file$3, 39, 0, 1062);
+    			add_location(div, file$3, 38, 0, 1060);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");

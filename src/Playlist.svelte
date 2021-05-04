@@ -22,7 +22,6 @@
             })
             .catch(() => navigate("/error/timeout"));
     }
-
     loadMore(); // load first 100 songs
 
     function getLink(song) {

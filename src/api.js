@@ -54,10 +54,17 @@ function cleanTitle(title) {
         .trim()
 }
 
+function scrollTo(container, elementOffset) {
+    console.log(container, elementOffset, container.scrollTop);
+
+    container.scrollTop = elementOffset - container.offsetTop
+}
+
 
 export default {
     getPlaylists,
     getTracks,
     getName,
     cleanTitle,
+    scrollTo,
 }

@@ -6,9 +6,9 @@
     import Error from "./Error.svelte";
 </script>
 
-<div class="container p-20 grid h-full">
+<div class="container pb-10 px-5 grid h-full">
     <header>
-        <h3 class="gradient-text my-10" style="cursor: pointer;" on:click={() => navigate("/")}>
+        <h3 class="gradient-text my-10 pl-10" style="cursor: pointer;" on:click={() => navigate("/")}>
             Spotify
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,6 @@
     </header>
     <Router>
         <Route path="/app" component={App} />
-        <Route path="/app/playlist/:playlistId/:token" component={Playlist} />
         <Route path="/error/:reason" component={Error} />
         <Route path="/" component={Login} />
     </Router>

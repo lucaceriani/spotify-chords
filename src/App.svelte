@@ -1,5 +1,6 @@
 <script>
     import queryString from "query-string";
+    import { afterUpdate } from "svelte";
     import { navigate } from "svelte-routing";
     import api from "./api";
     import Playlist from "./Playlist.svelte";
@@ -23,26 +24,38 @@
             .catch(() => navigate("/error/api"));
     }
 
-    function selectPlaylist(id) {
-        if (selectedPlaylistId == id) id = null;
-        selectedPlaylistId = id;
-        // navigate(`/app/playlist/${id}/${parsedHash.access_token}`);
+    async function selectPlaylist(e, id) {
+        if (selectedPlaylistId != id) {
+            scrollBackTo = e.currentTarget.offsetTop;
+            selectedPlaylistId = id;
+        } else {
+            selectedPlaylistId = null;
+        }
     }
 
     let selectedPlaylistId = null;
+    let scrollBackTo = null;
+
+    afterUpdate(() => {
+        if (!selectedPlaylistId) {
+            console.log("scrolling back to", scrollBackTo);
+            api.scrollTo(document.getElementById("container-scroll"), scrollBackTo);
+            scrollBackTo = null;
+        }
+    });
 
     // load the default batch
     loadMore();
 </script>
 
-<!-- <pre>{JSON.stringify(parsedHash, null, '\t')}</pre> -->
-<div style="overflow-y: auto; border-radius: 1.2rem;">
+<div style="overflow-y: auto; border-radius: 1.2rem;" id="container-scroll">
     {#each playlists.filter((p) => (selectedPlaylistId ? selectedPlaylistId == p.id : true)) as playlist}
         <div
             class="playlist d-flex flex-column"
             class:h-full={!!selectedPlaylistId}
             class:is-big={!!selectedPlaylistId}
-            on:click={selectPlaylist(playlist.id)}
+            data-id={playlist.id}
+            on:click={(e) => selectPlaylist(e, playlist.id)}
         >
             <div class="d-flex p-20 border-bottom">
                 {#if playlist.images.length > 0}

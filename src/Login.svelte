@@ -20,5 +20,6 @@
 </script>
 
 <main>
-    <button on:click={go} class="btn btn-large btn-success">Please login with Spotify</button>
+    <button on:click={go} class="btn btn-large btn-success">Login with Spotify</button>
+    <p style="font-size: 70%;">The login will be temporary and it'll expire in 1 hour</p>
 </main>

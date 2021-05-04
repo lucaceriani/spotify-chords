@@ -3,10 +3,20 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Spotify ▶ Tabs</title>
+        <title>Spotify » Chords</title>
         <link rel="shortcut icon" href="/favicon.png" type="image/png" />
-        <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon.min.css" rel="stylesheet" />
-        <script src="/index.js" defer></script>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;800&display=block" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/bundle.css?v=1" />
+        <script src="/index.js?v=1" defer></script>
+        <style>
+            :root {
+                --heading-font-weight: 800;
+                --dm-link-text-color: var(--success-color);
+                --dm-link-text-color-hover: var(--dm-button-success-bg-color-hover);
+            }
+        </style>
     </head>
-    <body class="dark-mode"></body>
+    <body class="dark-mode" style="font-family: Inter, sans-serif"></body>
 </html>

@@ -9,11 +9,14 @@
 
     let playlists = [];
     let nextPlaylists = null;
+    let loadMoreText = "Load more";
 
     function loadMore() {
+        loadMoreText = "Loading ...";
         api.getPlaylists(parsedHash.access_token, nextPlaylists).then((p) => {
             playlists = [...playlists, ...p.items];
             nextPlaylists = p.next;
+            loadMoreText = "Load more";
         });
     }
 
@@ -35,6 +38,6 @@
 </div>
 {#if nextPlaylists}
     <div class="text-center">
-        <button class="btn btn-primary m-10" on:click={loadMore}>Load more ...</button>
+        <button class="btn btn-primary m-10" style="width: 20em" on:click={loadMore}>{loadMoreText}</button>
     </div>
 {/if}

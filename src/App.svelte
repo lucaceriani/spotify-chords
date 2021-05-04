@@ -31,17 +31,44 @@
 </script>
 
 <!-- <pre>{JSON.stringify(parsedHash, null, '\t')}</pre> -->
-<div style="overflow-y: auto">
-    <div class="d-flex flex-wrap">
-        {#each playlists as playlist}
-            <div class="card p-10 m-5" style="flex: 1 0 20%; cursor: pointer" on:click={selectPlaylist(playlist.id)}>
-                {playlist.name}
+<div class="rounded" style="overflow-y: auto">
+    {#each playlists as playlist}
+        <div class="playlist px-10 py-20" on:click={selectPlaylist(playlist.id)}>
+            <div class="d-flex">
+                {#if playlist.images.length > 0}
+                    <img src={playlist.images[0].url} alt="" class="playlist-image" />
+                {:else}
+                    <div class="playlist-image">&nbsp;</div>
+                {/if}
+                <span class="playlist-name">
+                    {playlist.name}
+                </span>
             </div>
-        {/each}
-    </div>
+        </div>
+    {/each}
     {#if nextPlaylists}
         <div class="text-center">
             <button class="btn m-20" style="width: 20em" on:click={loadMore}>{loadMoreText}</button>
         </div>
     {/if}
 </div>
+
+<style>
+    .playlist {
+        cursor: pointer;
+        font-size: 1.3em;
+        background: var(--dark-color);
+    }
+    .playlist:hover {
+        background: var(--dark-color-light);
+    }
+    .playlist-name {
+        align-self: center;
+    }
+    .playlist-image {
+        margin-right: 1em;
+        width: 2em;
+        height: 2em;
+        object-fit: cover;
+    }
+</style>

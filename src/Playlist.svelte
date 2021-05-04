@@ -6,11 +6,22 @@
     import api from "./api";
 
     let songs = [];
-    let name = "";
-    api.getSongsAndName(token, playlistId).then((s) => {
-        songs = s.songs;
-        name = s.name;
-    });
+    let name = null;
+    let next = null;
+    let loadMoreText = "Load more";
+
+    function loadMore() {
+        loadMoreText = "...";
+        api.getTracks(token, playlistId, next).then((s) => {
+            console.log(s);
+            songs = [...songs, ...s.songs];
+            next = s.next;
+            loadMoreText = "Load more";
+        });
+    }
+
+    api.getName(token, playlistId).then((n) => (name = n)); // get playlist name
+    loadMore(); // load first 100 songs
 
     function getLink(song) {
         let baseUrl = "https://www.ultimate-guitar.com/search.php";
@@ -41,12 +52,18 @@
             <polyline points="9 14 4 9 9 4" /><path d="M20 20v-7a4 4 0 0 0-4-4H4" />
         </svg>
     </button>
-    <span class="align-self-center">{name}</span>
+    <span class="align-self-center">{name ? name : "..."}</span>
 </h4>
-{#if songs.length > 0}
-    <div class="ml-20">
-        {#each songs as song}
-            <a class="d-block" target="_blank" href={getLink(song)}>{song.artist} - {song.title}</a>
-        {/each}
-    </div>
-{/if}
+<div>
+    {#each songs as song, idx}
+        <div class="d-flex">
+            <div class="text-right w-100 mr-10" style="font-variant-numeric: tabular-nums;">{idx + 1}.</div>
+            <a target="_blank" href={getLink(song)}>{song.artist} - {song.title}</a>
+        </div>
+    {/each}
+    {#if next}
+        <div class="text-center">
+            <button class="btn m-20" style="width: 20em" on:click={loadMore}>{loadMoreText}</button>
+        </div>
+    {/if}
+</div>

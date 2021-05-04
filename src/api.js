@@ -21,23 +21,32 @@ function getPlaylists(token, next = null) {
     return callApi(token, url, { limit: 50 })
 }
 
-function getSongsAndName(token, playlistId) {
-    let url = `${endpoint}/playlists/${playlistId}`
+function getTracks(token, playlistId, next = null) {
+    let url = `${endpoint}/playlists/${playlistId}/tracks`
+    if (next) url = next;
+
     return callApi(token, url, {
-        playlist_id: playlistId,
-        fields: "(name,tracks.items.track(album(artists),name))"
+        fields: "next,items.track(name,album(artists))"
     })
         .then((s) => ({
-            songs: s.tracks.items.map((el) => ({
-                artist: el.track.album.artists[0].name,
-                title: el.track.name,
+            songs: s.items.map((el) => ({
+                artist: (el.track.album.artists[0] || { name: "" }).name, // only the first arist is considered
+                title: el.track.name || "",
             })),
-            name: s.name // il nome dell playlist
-        })).then()
+            next: s.next // url to next 100s songs
+        }))
+}
+
+function getName(token, playlistId) {
+    let url = `${endpoint}/playlists/${playlistId}`
+    return callApi(token, url, {
+        fields: "name"
+    }).then(s => s.name)
 }
 
 
 export default {
     getPlaylists,
-    getSongsAndName
+    getTracks,
+    getName,
 }

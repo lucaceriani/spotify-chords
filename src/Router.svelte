@@ -52,7 +52,7 @@
         bottom: 0;
         left: 0;
         /* background: linear-gradient(90deg, rgba(32, 255, 155, 1) 0%, rgba(7, 176, 123, 1) 75%); */
-        background: linear-gradient(90deg, rgba(11, 232, 129, 1) 0%, rgba(250, 223, 99, 1) 80%);
+        background: var(--gradient);
         pointer-events: none;
     }
 </style>

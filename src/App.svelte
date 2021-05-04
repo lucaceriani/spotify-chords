@@ -38,6 +38,6 @@
 </div>
 {#if nextPlaylists}
     <div class="text-center">
-        <button class="btn btn-primary m-10" style="width: 20em" on:click={loadMore}>{loadMoreText}</button>
+        <button class="btn m-20" style="width: 20em" on:click={loadMore}>{loadMoreText}</button>
     </div>
 {/if}

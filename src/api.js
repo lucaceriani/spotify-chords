@@ -11,7 +11,9 @@ function callApi(token, url, query) {
         headers: new Headers({
             "Authorization": "Bearer " + token
         }),
-    }).then(r => r.json())
+    })
+        .then(r => r.ok ? r : Promise.reject("Api error!"))
+        .then(r => r.json())
 }
 
 function getPlaylists(token, next = null) {

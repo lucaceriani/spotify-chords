@@ -1316,12 +1316,12 @@ var app = (function () {
     });
 
     // (40:0) {#if $activeRoute !== null && $activeRoute.route === route}
-    function create_if_block$2(ctx) {
+    function create_if_block$3(ctx) {
     	let current_block_type_index;
     	let if_block;
     	let if_block_anchor;
     	let current;
-    	const if_block_creators = [create_if_block_1, create_else_block];
+    	const if_block_creators = [create_if_block_1$1, create_else_block];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -1386,7 +1386,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$2.name,
+    		id: create_if_block$3.name,
     		type: "if",
     		source: "(40:0) {#if $activeRoute !== null && $activeRoute.route === route}",
     		ctx
@@ -1445,7 +1445,7 @@ var app = (function () {
     }
 
     // (41:2) {#if component !== null}
-    function create_if_block_1(ctx) {
+    function create_if_block_1$1(ctx) {
     	let switch_instance;
     	let switch_instance_anchor;
     	let current;
@@ -1538,7 +1538,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1.name,
+    		id: create_if_block_1$1.name,
     		type: "if",
     		source: "(41:2) {#if component !== null}",
     		ctx
@@ -1550,7 +1550,7 @@ var app = (function () {
     function create_fragment$5(ctx) {
     	let if_block_anchor;
     	let current;
-    	let if_block = /*$activeRoute*/ ctx[1] !== null && /*$activeRoute*/ ctx[1].route === /*route*/ ctx[7] && create_if_block$2(ctx);
+    	let if_block = /*$activeRoute*/ ctx[1] !== null && /*$activeRoute*/ ctx[1].route === /*route*/ ctx[7] && create_if_block$3(ctx);
 
     	const block = {
     		c: function create() {
@@ -1574,7 +1574,7 @@ var app = (function () {
     						transition_in(if_block, 1);
     					}
     				} else {
-    					if_block = create_if_block$2(ctx);
+    					if_block = create_if_block$3(ctx);
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(if_block_anchor.parentNode, if_block_anchor);
@@ -2477,7 +2477,9 @@ var app = (function () {
             headers: new Headers({
                 "Authorization": "Bearer " + token
             }),
-        }).then(r => r.json())
+        })
+            .then(r => r.ok ? r : Promise.reject("Api error!"))
+            .then(r => r.json())
     }
 
     function getPlaylists(token, next = null) {
@@ -2526,7 +2528,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (33:4) {#each playlists as playlist}
+    // (36:8) {#each playlists as playlist}
     function create_each_block$1(ctx) {
     	let div;
     	let t0_value = /*playlist*/ ctx[6].name + "";
@@ -2543,7 +2545,7 @@ var app = (function () {
     			attr_dev(div, "class", "card p-10 m-5");
     			set_style(div, "flex", "1 0 20%");
     			set_style(div, "cursor", "pointer");
-    			add_location(div, file$3, 33, 8, 957);
+    			add_location(div, file$3, 36, 12, 1087);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2580,15 +2582,15 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(33:4) {#each playlists as playlist}",
+    		source: "(36:8) {#each playlists as playlist}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (39:0) {#if nextPlaylists}
-    function create_if_block$1(ctx) {
+    // (42:4) {#if nextPlaylists}
+    function create_if_block$2(ctx) {
     	let div;
     	let button;
     	let t;
@@ -2602,9 +2604,9 @@ var app = (function () {
     			t = text(/*loadMoreText*/ ctx[2]);
     			attr_dev(button, "class", "btn m-20");
     			set_style(button, "width", "20em");
-    			add_location(button, file$3, 40, 8, 1190);
+    			add_location(button, file$3, 43, 12, 1348);
     			attr_dev(div, "class", "text-center");
-    			add_location(div, file$3, 39, 4, 1155);
+    			add_location(div, file$3, 42, 8, 1309);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2628,9 +2630,9 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$1.name,
+    		id: create_if_block$2.name,
     		type: "if",
-    		source: "(39:0) {#if nextPlaylists}",
+    		source: "(42:4) {#if nextPlaylists}",
     		ctx
     	});
 
@@ -2638,9 +2640,9 @@ var app = (function () {
     }
 
     function create_fragment$3(ctx) {
-    	let div;
+    	let div1;
+    	let div0;
     	let t;
-    	let if_block_anchor;
     	let each_value = /*playlists*/ ctx[0];
     	validate_each_argument(each_value);
     	let each_blocks = [];
@@ -2649,11 +2651,12 @@ var app = (function () {
     		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
     	}
 
-    	let if_block = /*nextPlaylists*/ ctx[1] && create_if_block$1(ctx);
+    	let if_block = /*nextPlaylists*/ ctx[1] && create_if_block$2(ctx);
 
     	const block = {
     		c: function create() {
-    			div = element("div");
+    			div1 = element("div");
+    			div0 = element("div");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
@@ -2661,23 +2664,24 @@ var app = (function () {
 
     			t = space();
     			if (if_block) if_block.c();
-    			if_block_anchor = empty();
-    			attr_dev(div, "class", "d-flex flex-wrap");
-    			add_location(div, file$3, 31, 0, 882);
+    			attr_dev(div0, "class", "d-flex flex-wrap");
+    			add_location(div0, file$3, 34, 4, 1004);
+    			set_style(div1, "overflow-y", "auto");
+    			add_location(div1, file$3, 33, 0, 968);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, div0);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div, null);
+    				each_blocks[i].m(div0, null);
     			}
 
-    			insert_dev(target, t, anchor);
-    			if (if_block) if_block.m(target, anchor);
-    			insert_dev(target, if_block_anchor, anchor);
+    			append_dev(div1, t);
+    			if (if_block) if_block.m(div1, null);
     		},
     		p: function update(ctx, [dirty]) {
     			if (dirty & /*selectPlaylist, playlists*/ 17) {
@@ -2693,7 +2697,7 @@ var app = (function () {
     					} else {
     						each_blocks[i] = create_each_block$1(child_ctx);
     						each_blocks[i].c();
-    						each_blocks[i].m(div, null);
+    						each_blocks[i].m(div0, null);
     					}
     				}
 
@@ -2708,9 +2712,9 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$1(ctx);
+    					if_block = create_if_block$2(ctx);
     					if_block.c();
-    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    					if_block.m(div1, null);
     				}
     			} else if (if_block) {
     				if_block.d(1);
@@ -2720,11 +2724,9 @@ var app = (function () {
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(div1);
     			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(t);
-    			if (if_block) if_block.d(detaching);
-    			if (detaching) detach_dev(if_block_anchor);
+    			if (if_block) if_block.d();
     		}
     	};
 
@@ -2743,7 +2745,7 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("App", slots, []);
     	const parsedHash = queryString.parse(location.hash);
-    	if (!parsedHash.access_token) navigate("/error");
+    	if (!parsedHash.access_token) navigate("/error/login");
     	let playlists = [];
     	let nextPlaylists = null;
     	let loadMoreText = "Load more";
@@ -2755,7 +2757,7 @@ var app = (function () {
     			$$invalidate(0, playlists = [...playlists, ...p.items]);
     			$$invalidate(1, nextPlaylists = p.next);
     			$$invalidate(2, loadMoreText = "Load more");
-    		});
+    		}).catch(() => navigate("/error/api"));
     	}
 
     	function selectPlaylist(id) {
@@ -2822,7 +2824,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (58:4) {#each songs as song, idx}
+    // (64:8) {#each songs as song, idx}
     function create_each_block(ctx) {
     	let div1;
     	let div0;
@@ -2849,14 +2851,15 @@ var app = (function () {
     			t3 = text(t3_value);
     			t4 = text(" - ");
     			t5 = text(t5_value);
-    			attr_dev(div0, "class", "text-right w-100 mr-10");
+    			attr_dev(div0, "class", "text-right mr-10");
     			set_style(div0, "font-variant-numeric", "tabular-nums");
-    			add_location(div0, file$2, 59, 12, 1743);
+    			set_style(div0, "width", "4em");
+    			add_location(div0, file$2, 65, 16, 2064);
     			attr_dev(a, "target", "_blank");
     			attr_dev(a, "href", a_href_value = /*getLink*/ ctx[5](/*song*/ ctx[9]));
-    			add_location(a, file$2, 60, 12, 1853);
+    			add_location(a, file$2, 68, 16, 2224);
     			attr_dev(div1, "class", "d-flex");
-    			add_location(div1, file$2, 58, 8, 1709);
+    			add_location(div1, file$2, 64, 12, 2026);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -2886,15 +2889,15 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(58:4) {#each songs as song, idx}",
+    		source: "(64:8) {#each songs as song, idx}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (64:4) {#if next}
-    function create_if_block(ctx) {
+    // (72:8) {#if next}
+    function create_if_block$1(ctx) {
     	let div;
     	let button;
     	let t;
@@ -2908,9 +2911,9 @@ var app = (function () {
     			t = text(/*loadMoreText*/ ctx[3]);
     			attr_dev(button, "class", "btn m-20");
     			set_style(button, "width", "20em");
-    			add_location(button, file$2, 65, 12, 2019);
+    			add_location(button, file$2, 73, 16, 2410);
     			attr_dev(div, "class", "text-center");
-    			add_location(div, file$2, 64, 8, 1980);
+    			add_location(div, file$2, 72, 12, 2367);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2934,9 +2937,9 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block.name,
+    		id: create_if_block$1.name,
     		type: "if",
-    		source: "(64:4) {#if next}",
+    		source: "(72:8) {#if next}",
     		ctx
     	});
 
@@ -2944,6 +2947,7 @@ var app = (function () {
     }
 
     function create_fragment$2(ctx) {
+    	let main;
     	let h4;
     	let button;
     	let svg;
@@ -2966,10 +2970,11 @@ var app = (function () {
     		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
     	}
 
-    	let if_block = /*next*/ ctx[2] && create_if_block(ctx);
+    	let if_block = /*next*/ ctx[2] && create_if_block$1(ctx);
 
     	const block = {
     		c: function create() {
+    			main = element("main");
     			h4 = element("h4");
     			button = element("button");
     			svg = svg_element("svg");
@@ -2988,9 +2993,9 @@ var app = (function () {
     			t3 = space();
     			if (if_block) if_block.c();
     			attr_dev(polyline, "points", "9 14 4 9 9 4");
-    			add_location(polyline, file$2, 51, 12, 1484);
+    			add_location(polyline, file$2, 57, 16, 1748);
     			attr_dev(path, "d", "M20 20v-7a4 4 0 0 0-4-4H4");
-    			add_location(path, file$2, 51, 46, 1518);
+    			add_location(path, file$2, 57, 50, 1782);
     			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
     			attr_dev(svg, "width", "24");
     			attr_dev(svg, "height", "24");
@@ -3001,20 +3006,25 @@ var app = (function () {
     			attr_dev(svg, "stroke-linecap", "round");
     			attr_dev(svg, "stroke-linejoin", "round");
     			set_style(svg, "height", "1.2em");
-    			add_location(svg, file$2, 39, 8, 1125);
+    			add_location(svg, file$2, 45, 12, 1341);
     			attr_dev(button, "class", "btn align-self-center mr-10 ");
-    			add_location(button, file$2, 38, 4, 1031);
+    			add_location(button, file$2, 44, 8, 1243);
     			attr_dev(span, "class", "align-self-center");
-    			add_location(span, file$2, 54, 4, 1593);
+    			add_location(span, file$2, 60, 8, 1869);
     			attr_dev(h4, "class", "d-flex");
-    			add_location(h4, file$2, 37, 0, 1006);
-    			add_location(div, file$2, 56, 0, 1662);
+    			add_location(h4, file$2, 43, 4, 1214);
+    			set_style(div, "overflow-y", "auto");
+    			attr_dev(div, "class", "svelte-svuw63");
+    			add_location(div, file$2, 62, 4, 1946);
+    			attr_dev(main, "class", "svelte-svuw63");
+    			add_location(main, file$2, 42, 0, 1202);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h4, anchor);
+    			insert_dev(target, main, anchor);
+    			append_dev(main, h4);
     			append_dev(h4, button);
     			append_dev(button, svg);
     			append_dev(svg, polyline);
@@ -3022,8 +3032,8 @@ var app = (function () {
     			append_dev(h4, t0);
     			append_dev(h4, span);
     			append_dev(span, t1);
-    			insert_dev(target, t2, anchor);
-    			insert_dev(target, div, anchor);
+    			append_dev(main, t2);
+    			append_dev(main, div);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(div, null);
@@ -3068,7 +3078,7 @@ var app = (function () {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block(ctx);
+    					if_block = create_if_block$1(ctx);
     					if_block.c();
     					if_block.m(div, null);
     				}
@@ -3080,9 +3090,7 @@ var app = (function () {
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h4);
-    			if (detaching) detach_dev(t2);
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(main);
     			destroy_each(each_blocks, detaching);
     			if (if_block) if_block.d();
     			mounted = false;
@@ -3119,10 +3127,10 @@ var app = (function () {
     			$$invalidate(0, songs = [...songs, ...s.songs]);
     			$$invalidate(2, next = s.next);
     			$$invalidate(3, loadMoreText = "Load more");
-    		});
+    		}).catch(() => navigate("/error/timeout"));
     	}
 
-    	api.getName(token, playlistId).then(n => $$invalidate(1, name = n)); // get playlist name
+    	api.getName(token, playlistId).then(n => $$invalidate(1, name = n)).catch(() => navigate("/error/timeout")); // get playlist name
     	loadMore(); // load first 100 songs
 
     	function getLink(song) {
@@ -3154,6 +3162,7 @@ var app = (function () {
     		playlistId,
     		token,
     		queryString,
+    		navigate,
     		api,
     		songs,
     		name,
@@ -3235,7 +3244,63 @@ var app = (function () {
     const { Error: Error_1$1 } = globals;
     const file$1 = "src\\Error.svelte";
 
-    function create_fragment$1(ctx) {
+    // (9:26) 
+    function create_if_block_1(ctx) {
+    	let p;
+    	let t0;
+    	let b;
+    	let t2;
+    	let a;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			p = element("p");
+    			t0 = text("Error in Spotify response, probably ");
+    			b = element("b");
+    			b.textContent = "login has expired";
+    			t2 = text(", please ");
+    			a = element("a");
+    			a.textContent = "login again";
+    			add_location(b, file$1, 10, 44, 329);
+    			attr_dev(a, "href", "/");
+    			add_location(a, file$1, 10, 77, 362);
+    			attr_dev(p, "class", "text-danger");
+    			add_location(p, file$1, 9, 4, 260);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    			append_dev(p, t0);
+    			append_dev(p, b);
+    			append_dev(p, t2);
+    			append_dev(p, a);
+
+    			if (!mounted) {
+    				dispose = action_destroyer(link.call(null, a));
+    				mounted = true;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1.name,
+    		type: "if",
+    		source: "(9:26) ",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (7:0) {#if reason == "login"}
+    function create_if_block(ctx) {
     	let p;
     	let t0;
     	let a;
@@ -3245,16 +3310,13 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			p = element("p");
-    			t0 = text("An error occurred, please ");
+    			t0 = text("An error occurred performing login, please ");
     			a = element("a");
     			a.textContent = "try again";
     			attr_dev(a, "href", "/");
-    			add_location(a, file$1, 4, 49, 116);
+    			add_location(a, file$1, 7, 70, 188);
     			attr_dev(p, "class", "text-danger");
-    			add_location(p, file$1, 4, 0, 67);
-    		},
-    		l: function claim(nodes) {
-    			throw new Error_1$1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    			add_location(p, file$1, 7, 4, 122);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -3266,13 +3328,66 @@ var app = (function () {
     				mounted = true;
     			}
     		},
-    		p: noop,
-    		i: noop,
-    		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(p);
     			mounted = false;
     			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(7:0) {#if reason == \\\"login\\\"}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$1(ctx) {
+    	let if_block_anchor;
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*reason*/ ctx[0] == "login") return create_if_block;
+    		if (/*reason*/ ctx[0] == "api") return create_if_block_1;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block = current_block_type && current_block_type(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    		},
+    		l: function claim(nodes) {
+    			throw new Error_1$1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (current_block_type !== (current_block_type = select_block_type(ctx))) {
+    				if (if_block) if_block.d(1);
+    				if_block = current_block_type && current_block_type(ctx);
+
+    				if (if_block) {
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (if_block) {
+    				if_block.d(detaching);
+    			}
+
+    			if (detaching) detach_dev(if_block_anchor);
     		}
     	};
 
@@ -3290,20 +3405,34 @@ var app = (function () {
     function instance$1($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Error", slots, []);
-    	const writable_props = [];
+    	let { reason } = $$props;
+    	const writable_props = ["reason"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Error> was created with unknown prop '${key}'`);
     	});
 
-    	$$self.$capture_state = () => ({ link });
-    	return [];
+    	$$self.$$set = $$props => {
+    		if ("reason" in $$props) $$invalidate(0, reason = $$props.reason);
+    	};
+
+    	$$self.$capture_state = () => ({ reason, link });
+
+    	$$self.$inject_state = $$props => {
+    		if ("reason" in $$props) $$invalidate(0, reason = $$props.reason);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [reason];
     }
 
     class Error$1 extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, { reason: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -3311,6 +3440,21 @@ var app = (function () {
     			options,
     			id: create_fragment$1.name
     		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*reason*/ ctx[0] === undefined && !("reason" in props)) {
+    			console.warn("<Error> was created without expected prop 'reason'");
+    		}
+    	}
+
+    	get reason() {
+    		throw new Error_1$1("<Error>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set reason(value) {
+    		throw new Error_1$1("<Error>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -3319,7 +3463,7 @@ var app = (function () {
     const { Error: Error_1 } = globals;
     const file = "src\\Router.svelte";
 
-    // (28:4) <Router>
+    // (29:4) <Router>
     function create_default_slot(ctx) {
     	let route0;
     	let t0;
@@ -3344,7 +3488,7 @@ var app = (function () {
     		});
 
     	route2 = new Route({
-    			props: { path: "/error", component: Error$1 },
+    			props: { path: "/error/:reason", component: Error$1 },
     			$$inline: true
     		});
 
@@ -3404,7 +3548,7 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(28:4) <Router>",
+    		source: "(29:4) <Router>",
     		ctx
     	});
 
@@ -3413,17 +3557,25 @@ var app = (function () {
 
     function create_fragment(ctx) {
     	let div;
-    	let h1;
+    	let header;
+    	let h3;
     	let t0;
-    	let svg;
+    	let svg0;
     	let polyline0;
     	let polyline1;
     	let t1;
     	let t2;
-    	let span;
-    	let t4;
     	let router;
+    	let t3;
+    	let footer;
+    	let t4;
+    	let svg1;
+    	let path;
+    	let t5;
+    	let a;
     	let current;
+    	let mounted;
+    	let dispose;
 
     	router = new Router({
     			props: {
@@ -3436,59 +3588,92 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			h1 = element("h1");
-    			t0 = text("Spotify\r\n        ");
-    			svg = svg_element("svg");
+    			header = element("header");
+    			h3 = element("h3");
+    			t0 = text("Spotify\r\n            ");
+    			svg0 = svg_element("svg");
     			polyline0 = svg_element("polyline");
     			polyline1 = svg_element("polyline");
-    			t1 = text("\r\n        Chords");
+    			t1 = text("\r\n            Chords");
     			t2 = space();
-    			span = element("span");
-    			span.textContent = "by Luca";
-    			t4 = space();
     			create_component(router.$$.fragment);
+    			t3 = space();
+    			footer = element("footer");
+    			t4 = text("Made with\r\n        ");
+    			svg1 = svg_element("svg");
+    			path = svg_element("path");
+    			t5 = text("\r\n        by ");
+    			a = element("a");
+    			a.textContent = "lucaceriani";
     			attr_dev(polyline0, "points", "13 17 18 12 13 7");
-    			add_location(polyline0, file, 21, 12, 661);
+    			add_location(polyline0, file, 22, 16, 811);
     			attr_dev(polyline1, "points", "6 17 11 12 6 7");
-    			add_location(polyline1, file, 22, 12, 713);
-    			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
-    			attr_dev(svg, "viewBox", "0 0 24 24");
-    			attr_dev(svg, "fill", "none");
-    			attr_dev(svg, "stroke", "currentColor");
-    			attr_dev(svg, "stroke-width", "2");
-    			attr_dev(svg, "stroke-linecap", "round");
-    			attr_dev(svg, "stroke-linejoin", "round");
-    			set_style(svg, "height", "1.2em");
-    			set_style(svg, "vertical-align", "middle");
-    			add_location(svg, file, 11, 8, 329);
-    			attr_dev(h1, "class", "gradient-text svelte-vks5kz");
-    			add_location(h1, file, 9, 4, 276);
-    			attr_dev(span, "class", "align-self-center font-weight-light ml-10");
-    			add_location(span, file, 26, 4, 798);
-    			attr_dev(div, "class", "container p-20");
-    			add_location(div, file, 8, 0, 242);
+    			add_location(polyline1, file, 23, 16, 867);
+    			attr_dev(svg0, "xmlns", "http://www.w3.org/2000/svg");
+    			attr_dev(svg0, "viewBox", "0 0 24 24");
+    			attr_dev(svg0, "fill", "none");
+    			attr_dev(svg0, "stroke", "currentColor");
+    			attr_dev(svg0, "stroke-width", "2");
+    			attr_dev(svg0, "stroke-linecap", "round");
+    			attr_dev(svg0, "stroke-linejoin", "round");
+    			set_style(svg0, "height", "1.2em");
+    			set_style(svg0, "vertical-align", "middle");
+    			add_location(svg0, file, 12, 12, 439);
+    			attr_dev(h3, "class", "gradient-text my-10 svelte-1rv8q1f");
+    			set_style(h3, "cursor", "pointer");
+    			add_location(h3, file, 10, 8, 316);
+    			add_location(header, file, 9, 4, 298);
+    			attr_dev(path, "fill-rule", "evenodd");
+    			attr_dev(path, "d", "M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z");
+    			add_location(path, file, 43, 12, 1561);
+    			attr_dev(svg1, "xmlns", "http://www.w3.org/2000/svg");
+    			attr_dev(svg1, "fill", "currentColor");
+    			attr_dev(svg1, "class", "text-danger");
+    			attr_dev(svg1, "viewBox", "0 0 16 16");
+    			set_style(svg1, "height", "1.2em");
+    			set_style(svg1, "vertical-align", "middle");
+    			add_location(svg1, file, 36, 8, 1326);
+    			attr_dev(a, "target", "_blank");
+    			attr_dev(a, "href", "https://github.com/lucaceriani");
+    			add_location(a, file, 45, 11, 1695);
+    			set_style(footer, "font-size", "70%");
+    			attr_dev(footer, "class", "mt-15 text-center");
+    			add_location(footer, file, 34, 4, 1240);
+    			attr_dev(div, "class", "container p-20 grid h-full svelte-1rv8q1f");
+    			add_location(div, file, 8, 0, 252);
     		},
     		l: function claim(nodes) {
     			throw new Error_1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
-    			append_dev(div, h1);
-    			append_dev(h1, t0);
-    			append_dev(h1, svg);
-    			append_dev(svg, polyline0);
-    			append_dev(svg, polyline1);
-    			append_dev(h1, t1);
+    			append_dev(div, header);
+    			append_dev(header, h3);
+    			append_dev(h3, t0);
+    			append_dev(h3, svg0);
+    			append_dev(svg0, polyline0);
+    			append_dev(svg0, polyline1);
+    			append_dev(h3, t1);
     			append_dev(div, t2);
-    			append_dev(div, span);
-    			append_dev(div, t4);
     			mount_component(router, div, null);
+    			append_dev(div, t3);
+    			append_dev(div, footer);
+    			append_dev(footer, t4);
+    			append_dev(footer, svg1);
+    			append_dev(svg1, path);
+    			append_dev(footer, t5);
+    			append_dev(footer, a);
     			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(h3, "click", /*click_handler*/ ctx[0], false, false, false);
+    				mounted = true;
+    			}
     		},
     		p: function update(ctx, [dirty]) {
     			const router_changes = {};
 
-    			if (dirty & /*$$scope*/ 1) {
+    			if (dirty & /*$$scope*/ 2) {
     				router_changes.$$scope = { dirty, ctx };
     			}
 
@@ -3506,6 +3691,8 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
     			destroy_component(router);
+    			mounted = false;
+    			dispose();
     		}
     	};
 
@@ -3529,16 +3716,19 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Router> was created with unknown prop '${key}'`);
     	});
 
+    	const click_handler = () => navigate("/");
+
     	$$self.$capture_state = () => ({
     		Router,
     		Route,
+    		navigate,
     		Login,
     		App,
     		Playlist,
     		Error: Error$1
     	});
 
-    	return [];
+    	return [click_handler];
     }
 
     class Router_1 extends SvelteComponentDev {
@@ -3562,3 +3752,4 @@ var app = (function () {
     return app;
 
 }());
+//# sourceMappingURL=index.js.map

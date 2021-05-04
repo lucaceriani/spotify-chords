@@ -2,6 +2,7 @@
     import queryString from "query-string";
     import { navigate } from "svelte-routing";
     import api from "./api";
+    import Playlist from "./Playlist.svelte";
 
     const parsedHash = queryString.parse(location.hash);
 
@@ -23,8 +24,12 @@
     }
 
     function selectPlaylist(id) {
-        navigate(`/app/playlist/${id}/${parsedHash.access_token}`);
+        if (selectedPlaylistId == id) id = null;
+        selectedPlaylistId = id;
+        // navigate(`/app/playlist/${id}/${parsedHash.access_token}`);
     }
+
+    let selectedPlaylistId = null;
 
     // load the default batch
     loadMore();
@@ -32,7 +37,7 @@
 
 <!-- <pre>{JSON.stringify(parsedHash, null, '\t')}</pre> -->
 <div class="rounded" style="overflow-y: auto">
-    {#each playlists as playlist}
+    {#each playlists.filter((p) => (selectedPlaylistId ? selectedPlaylistId == p.id : true)) as playlist}
         <div class="playlist px-10 py-20" on:click={selectPlaylist(playlist.id)}>
             <div class="d-flex">
                 {#if playlist.images.length > 0}
@@ -44,6 +49,11 @@
                     {playlist.name}
                 </span>
             </div>
+            {#if selectedPlaylistId == playlist.id}
+                <div class:vh-50={selectedPlaylistId == playlist.id} style="overflow-y: auto">
+                    <Playlist playlistId={selectedPlaylistId} token={parsedHash.access_token} />
+                </div>
+            {/if}
         </div>
     {/each}
     {#if nextPlaylists}
@@ -70,5 +80,8 @@
         width: 2em;
         height: 2em;
         object-fit: cover;
+    }
+    .vh-50 {
+        height: 50vh;
     }
 </style>

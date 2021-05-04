@@ -23,9 +23,6 @@
             .catch(() => navigate("/error/timeout"));
     }
 
-    api.getName(token, playlistId)
-        .then((n) => (name = n))
-        .catch(() => navigate("/error/timeout")); // get playlist name
     loadMore(); // load first 100 songs
 
     function getLink(song) {
@@ -40,42 +37,23 @@
     }
 </script>
 
-<main>
-    <h4 class="d-flex">
-        <button class="btn align-self-center mr-10 " on:click={() => window.history.back()}>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                style="height: 1.2em; "
+<div style="overflow-y: auto">
+    {#each songs as song, idx}
+        <div class="d-flex">
+            <span style="font-variant-numeric: tabular-nums;">
+                {idx + 1}.
+            </span>
+            <a target="_blank" href={getLink(song)} on:click={(e) => e.stopPropagation()}
+                >{song.artist} - {song.title}</a
             >
-                <polyline points="9 14 4 9 9 4" /><path d="M20 20v-7a4 4 0 0 0-4-4H4" />
-            </svg>
-        </button>
-        <span class="align-self-center">{name ? name : "..."}</span>
-    </h4>
-    <div style="overflow-y: auto">
-        {#each songs as song, idx}
-            <div class="d-flex">
-                <div class="text-right mr-10" style="font-variant-numeric: tabular-nums; width: 4em;">
-                    {idx + 1}.
-                </div>
-                <a target="_blank" href={getLink(song)}>{song.artist} - {song.title}</a>
-            </div>
-        {/each}
-        {#if next}
-            <div class="text-center">
-                <button class="btn m-20" style="width: 20em" on:click={loadMore}>{loadMoreText}</button>
-            </div>
-        {/if}
-    </div>
-</main>
+        </div>
+    {/each}
+    {#if next}
+        <div class="text-center">
+            <button class="btn m-20" style="width: 20em" on:click|stopPropagation={loadMore}>{loadMoreText}</button>
+        </div>
+    {/if}
+</div>
 
 <style>
     main {

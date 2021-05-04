@@ -38,25 +38,34 @@
 <!-- <pre>{JSON.stringify(parsedHash, null, '\t')}</pre> -->
 <div class="rounded" style="overflow-y: auto">
     {#each playlists.filter((p) => (selectedPlaylistId ? selectedPlaylistId == p.id : true)) as playlist}
-        <div class="playlist px-10 py-20" on:click={selectPlaylist(playlist.id)}>
-            <div class="d-flex">
+        <div
+            class="playlist d-flex flex-column border"
+            class:h-full={!!selectedPlaylistId}
+            on:click={selectPlaylist(playlist.id)}
+        >
+            <div class="d-flex px-10 py-20" class:border-bottom={!!selectedPlaylistId}>
                 {#if playlist.images.length > 0}
                     <img src={playlist.images[0].url} alt="" class="playlist-image" />
                 {:else}
                     <div class="playlist-image">&nbsp;</div>
                 {/if}
-                <span class="playlist-name">
+                <span class="playlist-name flex-grow-1">
                     {playlist.name}
                 </span>
+                {#if !!selectedPlaylistId}
+                    <span class="text-success playlist-name w-25"> &times; </span>
+                {/if}
             </div>
-            {#if selectedPlaylistId == playlist.id}
-                <div class:vh-50={selectedPlaylistId == playlist.id} style="overflow-y: auto">
-                    <Playlist playlistId={selectedPlaylistId} token={parsedHash.access_token} />
+            {#if !!selectedPlaylistId}
+                <div class="d-flex flex-column py-10" style="flex: 1 1 1px">
+                    <div style="flex: 1 1 1px; overflow-y:auto">
+                        <Playlist playlistId={selectedPlaylistId} token={parsedHash.access_token} />
+                    </div>
                 </div>
             {/if}
         </div>
     {/each}
-    {#if nextPlaylists}
+    {#if nextPlaylists && selectedPlaylistId == null}
         <div class="text-center">
             <button class="btn m-20" style="width: 20em" on:click={loadMore}>{loadMoreText}</button>
         </div>
@@ -73,6 +82,7 @@
         background: var(--dark-color-light);
     }
     .playlist-name {
+        font-weight: bold;
         align-self: center;
     }
     .playlist-image {
@@ -80,8 +90,5 @@
         width: 2em;
         height: 2em;
         object-fit: cover;
-    }
-    .vh-50 {
-        height: 50vh;
     }
 </style>

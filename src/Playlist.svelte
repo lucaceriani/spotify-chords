@@ -37,15 +37,15 @@
     }
 </script>
 
-<div style="overflow-y: auto">
+<div style="overflow-y: auto; heigth: 100%">
     {#each songs as song, idx}
         <div class="d-flex">
-            <span style="font-variant-numeric: tabular-nums;">
+            <span class="number">
                 {idx + 1}.
             </span>
-            <a target="_blank" href={getLink(song)} on:click={(e) => e.stopPropagation()}
-                >{song.artist} - {song.title}</a
-            >
+            <a target="_blank" href={getLink(song)} on:click={(e) => e.stopPropagation()}>
+                {song.artist} - {song.title}
+            </a>
         </div>
     {/each}
     {#if next}
@@ -56,12 +56,10 @@
 </div>
 
 <style>
-    main {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-    main > div {
-        flex: 1 1 1px;
+    .number {
+        font-variant-numeric: tabular-nums;
+        min-width: 2em;
+        text-align: right;
+        margin-right: 0.2em;
     }
 </style>

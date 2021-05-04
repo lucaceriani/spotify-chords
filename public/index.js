@@ -2570,13 +2570,13 @@ var app = (function () {
     			t3 = text(t3_value);
     			t4 = text(" - ");
     			t5 = text(t5_value);
-    			set_style(span, "font-variant-numeric", "tabular-nums");
-    			add_location(span, file$3, 42, 12, 1166);
+    			attr_dev(span, "class", "number svelte-nsen1l");
+    			add_location(span, file$3, 42, 12, 1180);
     			attr_dev(a, "target", "_blank");
     			attr_dev(a, "href", a_href_value = /*getLink*/ ctx[4](/*song*/ ctx[8]));
-    			add_location(a, file$3, 45, 12, 1279);
+    			add_location(a, file$3, 45, 12, 1264);
     			attr_dev(div, "class", "d-flex");
-    			add_location(div, file$3, 41, 8, 1132);
+    			add_location(div, file$3, 41, 8, 1146);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2635,9 +2635,9 @@ var app = (function () {
     			t = text(/*loadMoreText*/ ctx[2]);
     			attr_dev(button, "class", "btn m-20");
     			set_style(button, "width", "20em");
-    			add_location(button, file$3, 52, 12, 1515);
+    			add_location(button, file$3, 52, 12, 1500);
     			attr_dev(div, "class", "text-center");
-    			add_location(div, file$3, 51, 8, 1476);
+    			add_location(div, file$3, 51, 8, 1461);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2694,6 +2694,7 @@ var app = (function () {
     			t = space();
     			if (if_block) if_block.c();
     			set_style(div, "overflow-y", "auto");
+    			set_style(div, "heigth", "100%");
     			add_location(div, file$3, 39, 0, 1060);
     		},
     		l: function claim(nodes) {
@@ -2895,7 +2896,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (45:16) {:else}
+    // (49:16) {:else}
     function create_else_block(ctx) {
     	let div;
 
@@ -2903,8 +2904,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			div.textContent = " ";
-    			attr_dev(div, "class", "playlist-image svelte-15laho0");
-    			add_location(div, file$2, 45, 20, 1595);
+    			attr_dev(div, "class", "playlist-image svelte-17pffxd");
+    			add_location(div, file$2, 49, 20, 1749);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2919,15 +2920,15 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(45:16) {:else}",
+    		source: "(49:16) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (43:16) {#if playlist.images.length > 0}
-    function create_if_block_2(ctx) {
+    // (47:16) {#if playlist.images.length > 0}
+    function create_if_block_3(ctx) {
     	let img;
     	let img_src_value;
 
@@ -2936,8 +2937,8 @@ var app = (function () {
     			img = element("img");
     			if (img.src !== (img_src_value = /*playlist*/ ctx[8].images[0].url)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
-    			attr_dev(img, "class", "playlist-image svelte-15laho0");
-    			add_location(img, file$2, 43, 20, 1482);
+    			attr_dev(img, "class", "playlist-image svelte-17pffxd");
+    			add_location(img, file$2, 47, 20, 1636);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -2954,18 +2955,49 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_2.name,
+    		id: create_if_block_3.name,
     		type: "if",
-    		source: "(43:16) {#if playlist.images.length > 0}",
+    		source: "(47:16) {#if playlist.images.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (52:12) {#if selectedPlaylistId == playlist.id}
+    // (55:16) {#if !!selectedPlaylistId}
+    function create_if_block_2(ctx) {
+    	let span;
+
+    	const block = {
+    		c: function create() {
+    			span = element("span");
+    			span.textContent = "×";
+    			attr_dev(span, "class", "text-success playlist-name w-25 svelte-17pffxd");
+    			add_location(span, file$2, 55, 20, 1998);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, span, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(span);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2.name,
+    		type: "if",
+    		source: "(55:16) {#if !!selectedPlaylistId}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (59:12) {#if !!selectedPlaylistId}
     function create_if_block_1$1(ctx) {
-    	let div;
+    	let div1;
+    	let div0;
     	let playlist;
     	let current;
 
@@ -2979,26 +3011,26 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
-    			div = element("div");
+    			div1 = element("div");
+    			div0 = element("div");
     			create_component(playlist.$$.fragment);
-    			set_style(div, "overflow-y", "auto");
-    			attr_dev(div, "class", "svelte-15laho0");
-    			toggle_class(div, "vh-50", /*selectedPlaylistId*/ ctx[3] == /*playlist*/ ctx[8].id);
-    			add_location(div, file$2, 52, 16, 1857);
+    			set_style(div0, "flex", "1 1 1px");
+    			set_style(div0, "overflow-y", "auto");
+    			add_location(div0, file$2, 60, 20, 2243);
+    			attr_dev(div1, "class", "d-flex flex-column py-10");
+    			set_style(div1, "flex", "1 1 1px");
+    			add_location(div1, file$2, 59, 16, 2161);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			mount_component(playlist, div, null);
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, div0);
+    			mount_component(playlist, div0, null);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
     			const playlist_changes = {};
     			if (dirty & /*selectedPlaylistId*/ 8) playlist_changes.playlistId = /*selectedPlaylistId*/ ctx[3];
     			playlist.$set(playlist_changes);
-
-    			if (dirty & /*selectedPlaylistId, playlists*/ 9) {
-    				toggle_class(div, "vh-50", /*selectedPlaylistId*/ ctx[3] == /*playlist*/ ctx[8].id);
-    			}
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -3010,7 +3042,7 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(div1);
     			destroy_component(playlist);
     		}
     	};
@@ -3019,7 +3051,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(52:12) {#if selectedPlaylistId == playlist.id}",
+    		source: "(59:12) {#if !!selectedPlaylistId}",
     		ctx
     	});
 
@@ -3035,18 +3067,20 @@ var app = (function () {
     	let t1_value = /*playlist*/ ctx[8].name + "";
     	let t1;
     	let t2;
+    	let t3;
     	let current;
     	let mounted;
     	let dispose;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*playlist*/ ctx[8].images.length > 0) return create_if_block_2;
+    		if (/*playlist*/ ctx[8].images.length > 0) return create_if_block_3;
     		return create_else_block;
     	}
 
     	let current_block_type = select_block_type(ctx);
     	let if_block0 = current_block_type(ctx);
-    	let if_block1 = /*selectedPlaylistId*/ ctx[3] == /*playlist*/ ctx[8].id && create_if_block_1$1(ctx);
+    	let if_block1 = !!/*selectedPlaylistId*/ ctx[3] && create_if_block_2(ctx);
+    	let if_block2 = !!/*selectedPlaylistId*/ ctx[3] && create_if_block_1$1(ctx);
 
     	const block = {
     		c: function create() {
@@ -3058,11 +3092,15 @@ var app = (function () {
     			t1 = text(t1_value);
     			t2 = space();
     			if (if_block1) if_block1.c();
-    			attr_dev(span, "class", "playlist-name svelte-15laho0");
-    			add_location(span, file$2, 47, 16, 1676);
-    			attr_dev(div0, "class", "d-flex");
-    			add_location(div0, file$2, 41, 12, 1390);
-    			attr_dev(div1, "class", "playlist px-10 py-20 svelte-15laho0");
+    			t3 = space();
+    			if (if_block2) if_block2.c();
+    			attr_dev(span, "class", "playlist-name flex-grow-1 svelte-17pffxd");
+    			add_location(span, file$2, 51, 16, 1830);
+    			attr_dev(div0, "class", "d-flex px-10 py-20");
+    			toggle_class(div0, "border-bottom", !!/*selectedPlaylistId*/ ctx[3]);
+    			add_location(div0, file$2, 45, 12, 1489);
+    			attr_dev(div1, "class", "playlist d-flex flex-column border svelte-17pffxd");
+    			toggle_class(div1, "h-full", !!/*selectedPlaylistId*/ ctx[3]);
     			add_location(div1, file$2, 40, 8, 1303);
     		},
     		m: function mount(target, anchor) {
@@ -3072,8 +3110,10 @@ var app = (function () {
     			append_dev(div0, t0);
     			append_dev(div0, span);
     			append_dev(span, t1);
-    			append_dev(div1, t2);
-    			if (if_block1) if_block1.m(div1, null);
+    			append_dev(div0, t2);
+    			if (if_block1) if_block1.m(div0, null);
+    			append_dev(div1, t3);
+    			if (if_block2) if_block2.m(div1, null);
     			current = true;
 
     			if (!mounted) {
@@ -3108,42 +3148,62 @@ var app = (function () {
 
     			if ((!current || dirty & /*playlists, selectedPlaylistId*/ 9) && t1_value !== (t1_value = /*playlist*/ ctx[8].name + "")) set_data_dev(t1, t1_value);
 
-    			if (/*selectedPlaylistId*/ ctx[3] == /*playlist*/ ctx[8].id) {
-    				if (if_block1) {
-    					if_block1.p(ctx, dirty);
-
-    					if (dirty & /*selectedPlaylistId, playlists*/ 9) {
-    						transition_in(if_block1, 1);
-    					}
-    				} else {
-    					if_block1 = create_if_block_1$1(ctx);
+    			if (!!/*selectedPlaylistId*/ ctx[3]) {
+    				if (if_block1) ; else {
+    					if_block1 = create_if_block_2(ctx);
     					if_block1.c();
-    					transition_in(if_block1, 1);
-    					if_block1.m(div1, null);
+    					if_block1.m(div0, null);
     				}
     			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
+    			}
+
+    			if (dirty & /*selectedPlaylistId*/ 8) {
+    				toggle_class(div0, "border-bottom", !!/*selectedPlaylistId*/ ctx[3]);
+    			}
+
+    			if (!!/*selectedPlaylistId*/ ctx[3]) {
+    				if (if_block2) {
+    					if_block2.p(ctx, dirty);
+
+    					if (dirty & /*selectedPlaylistId*/ 8) {
+    						transition_in(if_block2, 1);
+    					}
+    				} else {
+    					if_block2 = create_if_block_1$1(ctx);
+    					if_block2.c();
+    					transition_in(if_block2, 1);
+    					if_block2.m(div1, null);
+    				}
+    			} else if (if_block2) {
     				group_outros();
 
-    				transition_out(if_block1, 1, 1, () => {
-    					if_block1 = null;
+    				transition_out(if_block2, 1, 1, () => {
+    					if_block2 = null;
     				});
 
     				check_outros();
     			}
+
+    			if (dirty & /*selectedPlaylistId*/ 8) {
+    				toggle_class(div1, "h-full", !!/*selectedPlaylistId*/ ctx[3]);
+    			}
     		},
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(if_block1);
+    			transition_in(if_block2);
     			current = true;
     		},
     		o: function outro(local) {
-    			transition_out(if_block1);
+    			transition_out(if_block2);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div1);
     			if_block0.d();
     			if (if_block1) if_block1.d();
+    			if (if_block2) if_block2.d();
     			mounted = false;
     			dispose();
     		}
@@ -3160,7 +3220,7 @@ var app = (function () {
     	return block;
     }
 
-    // (59:4) {#if nextPlaylists}
+    // (68:4) {#if nextPlaylists && selectedPlaylistId == null}
     function create_if_block$1(ctx) {
     	let div;
     	let button;
@@ -3175,9 +3235,9 @@ var app = (function () {
     			t = text(/*loadMoreText*/ ctx[2]);
     			attr_dev(button, "class", "btn m-20");
     			set_style(button, "width", "20em");
-    			add_location(button, file$2, 60, 12, 2179);
+    			add_location(button, file$2, 69, 12, 2593);
     			attr_dev(div, "class", "text-center");
-    			add_location(div, file$2, 59, 8, 2140);
+    			add_location(div, file$2, 68, 8, 2554);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3203,7 +3263,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(59:4) {#if nextPlaylists}",
+    		source: "(68:4) {#if nextPlaylists && selectedPlaylistId == null}",
     		ctx
     	});
 
@@ -3226,7 +3286,7 @@ var app = (function () {
     		each_blocks[i] = null;
     	});
 
-    	let if_block = /*nextPlaylists*/ ctx[1] && create_if_block$1(ctx);
+    	let if_block = /*nextPlaylists*/ ctx[1] && /*selectedPlaylistId*/ ctx[3] == null && create_if_block$1(ctx);
 
     	const block = {
     		c: function create() {
@@ -3257,7 +3317,7 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*selectPlaylist, playlists, selectedPlaylistId, parsedHash*/ 89) {
+    			if (dirty & /*selectedPlaylistId, selectPlaylist, playlists, parsedHash*/ 89) {
     				each_value = /*playlists*/ ctx[0].filter(/*func*/ ctx[7]);
     				validate_each_argument(each_value);
     				let i;
@@ -3285,7 +3345,7 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*nextPlaylists*/ ctx[1]) {
+    			if (/*nextPlaylists*/ ctx[1] && /*selectedPlaylistId*/ ctx[3] == null) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {

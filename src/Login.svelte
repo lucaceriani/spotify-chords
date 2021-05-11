@@ -19,7 +19,11 @@
     }
 </script>
 
-<main>
-    <button on:click={go} class="btn btn-large btn-success">Login with Spotify</button>
-    <p style="font-size: 70%;">The login will be temporary and it'll expire in 1 hour</p>
+<main style="height: 100%; display: flex; justify-content: center">
+    <div style="text-align: center; align-self: center">
+        <a href="" on:click|preventDefault={go} class="text-success font-weight-bold font-size-24">
+            Login with spotify
+        </a>
+        <p style="font-size: 70%;">The login will be temporary and it'll expire in 1 hour</p>
+    </div>
 </main>

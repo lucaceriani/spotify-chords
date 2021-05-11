@@ -158,6 +158,13 @@ var app = (function () {
         node.addEventListener(event, handler, options);
         return () => node.removeEventListener(event, handler, options);
     }
+    function prevent_default(fn) {
+        return function (event) {
+            event.preventDefault();
+            // @ts-ignore
+            return fn.call(this, event);
+        };
+    }
     function stop_propagation(fn) {
         return function (event) {
             event.stopPropagation();
@@ -222,6 +229,10 @@ var app = (function () {
             update_scheduled = true;
             resolved_promise.then(flush);
         }
+    }
+    function tick() {
+        schedule_update();
+        return resolved_promise;
     }
     function add_render_callback(fn) {
         render_callbacks.push(fn);
@@ -2379,7 +2390,8 @@ var app = (function () {
 
     function create_fragment$4(ctx) {
     	let main;
-    	let button;
+    	let div;
+    	let a;
     	let t1;
     	let p;
     	let mounted;
@@ -2388,15 +2400,23 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			main = element("main");
-    			button = element("button");
-    			button.textContent = "Login with Spotify";
+    			div = element("div");
+    			a = element("a");
+    			a.textContent = "Login with spotify";
     			t1 = space();
     			p = element("p");
     			p.textContent = "The login will be temporary and it'll expire in 1 hour";
-    			attr_dev(button, "class", "btn btn-large btn-success");
-    			add_location(button, file$4, 22, 4, 697);
+    			attr_dev(a, "href", "");
+    			attr_dev(a, "class", "text-success font-weight-bold font-size-24");
+    			add_location(a, file$4, 23, 8, 820);
     			set_style(p, "font-size", "70%");
-    			add_location(p, file$4, 23, 4, 786);
+    			add_location(p, file$4, 26, 8, 967);
+    			set_style(div, "text-align", "center");
+    			set_style(div, "align-self", "center");
+    			add_location(div, file$4, 22, 4, 758);
+    			set_style(main, "height", "100%");
+    			set_style(main, "display", "flex");
+    			set_style(main, "justify-content", "center");
     			add_location(main, file$4, 21, 0, 685);
     		},
     		l: function claim(nodes) {
@@ -2404,12 +2424,13 @@ var app = (function () {
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, main, anchor);
-    			append_dev(main, button);
-    			append_dev(main, t1);
-    			append_dev(main, p);
+    			append_dev(main, div);
+    			append_dev(div, a);
+    			append_dev(div, t1);
+    			append_dev(div, p);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*go*/ ctx[0], false, false, false);
+    				dispose = listen_dev(a, "click", prevent_default(/*go*/ ctx[0]), false, true, false);
     				mounted = true;
     			}
     		},
@@ -2534,8 +2555,7 @@ var app = (function () {
     }
 
     function scrollTo(container, elementOffset) {
-        console.log(container, elementOffset, container.scrollTop);
-
+        // console.log(container, elementOffset, container.scrollTop);
         container.scrollTop = elementOffset - container.offsetTop;
     }
 
@@ -2588,12 +2608,12 @@ var app = (function () {
     			t4 = text(" - ");
     			t5 = text(t5_value);
     			attr_dev(span, "class", "number svelte-nsen1l");
-    			add_location(span, file$3, 41, 12, 1180);
+    			add_location(span, file$3, 41, 12, 1176);
     			attr_dev(a, "target", "_blank");
     			attr_dev(a, "href", a_href_value = /*getLink*/ ctx[4](/*song*/ ctx[8]));
-    			add_location(a, file$3, 44, 12, 1264);
+    			add_location(a, file$3, 44, 12, 1260);
     			attr_dev(div, "class", "d-flex");
-    			add_location(div, file$3, 40, 8, 1146);
+    			add_location(div, file$3, 40, 8, 1142);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2652,9 +2672,9 @@ var app = (function () {
     			t = text(/*loadMoreText*/ ctx[2]);
     			attr_dev(button, "class", "btn m-20");
     			set_style(button, "width", "20em");
-    			add_location(button, file$3, 51, 12, 1500);
+    			add_location(button, file$3, 51, 12, 1496);
     			attr_dev(div, "class", "text-center");
-    			add_location(div, file$3, 50, 8, 1461);
+    			add_location(div, file$3, 50, 8, 1457);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2712,7 +2732,7 @@ var app = (function () {
     			if (if_block) if_block.c();
     			set_style(div, "overflow-y", "auto");
     			set_style(div, "heigth", "100%");
-    			add_location(div, file$3, 38, 0, 1060);
+    			add_location(div, file$3, 38, 0, 1056);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2806,7 +2826,7 @@ var app = (function () {
 
     			$$invalidate(1, next = s.next);
     			$$invalidate(2, loadMoreText = "Load more");
-    		}).catch(() => navigate("/error/timeout"));
+    		}).catch(() => navigate("/error/api"));
     	}
 
     	loadMore(); // load first 100 songs
@@ -2906,17 +2926,15 @@ var app = (function () {
     }
 
     /* src\App.svelte generated by Svelte v3.38.1 */
-
-    const { console: console_1 } = globals;
     const file$2 = "src\\App.svelte";
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[10] = list[i];
+    	child_ctx[11] = list[i];
     	return child_ctx;
     }
 
-    // (63:16) {:else}
+    // (71:16) {:else}
     function create_else_block(ctx) {
     	let div;
 
@@ -2925,7 +2943,7 @@ var app = (function () {
     			div = element("div");
     			div.textContent = " ";
     			attr_dev(div, "class", "playlist-image svelte-qaiivn");
-    			add_location(div, file$2, 63, 20, 2161);
+    			add_location(div, file$2, 71, 20, 2486);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2940,14 +2958,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(63:16) {:else}",
+    		source: "(71:16) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (61:16) {#if playlist.images.length > 0}
+    // (69:16) {#if playlist.images.length > 0}
     function create_if_block_3(ctx) {
     	let img;
     	let img_src_value;
@@ -2955,16 +2973,16 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			img = element("img");
-    			if (img.src !== (img_src_value = /*playlist*/ ctx[10].images[0].url)) attr_dev(img, "src", img_src_value);
+    			if (img.src !== (img_src_value = /*playlist*/ ctx[11].images[0].url)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "");
     			attr_dev(img, "class", "playlist-image svelte-qaiivn");
-    			add_location(img, file$2, 61, 20, 2048);
+    			add_location(img, file$2, 69, 20, 2373);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*playlists, selectedPlaylistId*/ 9 && img.src !== (img_src_value = /*playlist*/ ctx[10].images[0].url)) {
+    			if (dirty & /*playlists, selectedPlaylistId*/ 9 && img.src !== (img_src_value = /*playlist*/ ctx[11].images[0].url)) {
     				attr_dev(img, "src", img_src_value);
     			}
     		},
@@ -2977,14 +2995,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(61:16) {#if playlist.images.length > 0}",
+    		source: "(69:16) {#if playlist.images.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (69:16) {#if !!selectedPlaylistId}
+    // (77:16) {#if !!selectedPlaylistId}
     function create_if_block_2(ctx) {
     	let span;
 
@@ -2993,7 +3011,7 @@ var app = (function () {
     			span = element("span");
     			span.textContent = "×";
     			attr_dev(span, "class", "text-success playlist-name w-25 svelte-qaiivn");
-    			add_location(span, file$2, 69, 20, 2410);
+    			add_location(span, file$2, 77, 20, 2735);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -3007,14 +3025,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(69:16) {#if !!selectedPlaylistId}",
+    		source: "(77:16) {#if !!selectedPlaylistId}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (73:12) {#if !!selectedPlaylistId}
+    // (81:12) {#if !!selectedPlaylistId}
     function create_if_block_1$1(ctx) {
     	let div1;
     	let div0;
@@ -3036,10 +3054,10 @@ var app = (function () {
     			create_component(playlist.$$.fragment);
     			set_style(div0, "flex", "1 1 1px");
     			set_style(div0, "overflow-y", "auto");
-    			add_location(div0, file$2, 74, 20, 2655);
+    			add_location(div0, file$2, 82, 20, 2980);
     			attr_dev(div1, "class", "d-flex flex-column py-10");
     			set_style(div1, "flex", "1 1 1px");
-    			add_location(div1, file$2, 73, 16, 2573);
+    			add_location(div1, file$2, 81, 16, 2898);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -3071,20 +3089,20 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(73:12) {#if !!selectedPlaylistId}",
+    		source: "(81:12) {#if !!selectedPlaylistId}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (52:4) {#each playlists.filter((p) => (selectedPlaylistId ? selectedPlaylistId == p.id : true)) as playlist}
+    // (60:4) {#each playlists.filter((p) => (selectedPlaylistId ? selectedPlaylistId == p.id : true)) as playlist}
     function create_each_block(ctx) {
     	let div1;
     	let div0;
     	let t0;
     	let span;
-    	let t1_value = /*playlist*/ ctx[10].name + "";
+    	let t1_value = /*playlist*/ ctx[11].name + "";
     	let t1;
     	let t2;
     	let t3;
@@ -3094,7 +3112,7 @@ var app = (function () {
     	let dispose;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*playlist*/ ctx[10].images.length > 0) return create_if_block_3;
+    		if (/*playlist*/ ctx[11].images.length > 0) return create_if_block_3;
     		return create_else_block;
     	}
 
@@ -3104,7 +3122,7 @@ var app = (function () {
     	let if_block2 = !!/*selectedPlaylistId*/ ctx[3] && create_if_block_1$1(ctx);
 
     	function click_handler(...args) {
-    		return /*click_handler*/ ctx[8](/*playlist*/ ctx[10], ...args);
+    		return /*click_handler*/ ctx[8](/*playlist*/ ctx[11], ...args);
     	}
 
     	const block = {
@@ -3120,14 +3138,14 @@ var app = (function () {
     			t3 = space();
     			if (if_block2) if_block2.c();
     			attr_dev(span, "class", "playlist-name flex-grow-1 svelte-qaiivn");
-    			add_location(span, file$2, 65, 16, 2242);
+    			add_location(span, file$2, 73, 16, 2567);
     			attr_dev(div0, "class", "d-flex p-20 border-bottom");
-    			add_location(div0, file$2, 59, 12, 1937);
+    			add_location(div0, file$2, 67, 12, 2262);
     			attr_dev(div1, "class", "playlist d-flex flex-column svelte-qaiivn");
-    			attr_dev(div1, "data-id", div1_data_id_value = /*playlist*/ ctx[10].id);
+    			attr_dev(div1, "data-id", div1_data_id_value = /*playlist*/ ctx[11].id);
     			toggle_class(div1, "h-full", !!/*selectedPlaylistId*/ ctx[3]);
     			toggle_class(div1, "is-big", !!/*selectedPlaylistId*/ ctx[3]);
-    			add_location(div1, file$2, 52, 8, 1664);
+    			add_location(div1, file$2, 60, 8, 1989);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -3162,7 +3180,7 @@ var app = (function () {
     				}
     			}
 
-    			if ((!current || dirty & /*playlists, selectedPlaylistId*/ 9) && t1_value !== (t1_value = /*playlist*/ ctx[10].name + "")) set_data_dev(t1, t1_value);
+    			if ((!current || dirty & /*playlists, selectedPlaylistId*/ 9) && t1_value !== (t1_value = /*playlist*/ ctx[11].name + "")) set_data_dev(t1, t1_value);
 
     			if (!!/*selectedPlaylistId*/ ctx[3]) {
     				if (if_block1) ; else {
@@ -3198,7 +3216,7 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (!current || dirty & /*playlists, selectedPlaylistId*/ 9 && div1_data_id_value !== (div1_data_id_value = /*playlist*/ ctx[10].id)) {
+    			if (!current || dirty & /*playlists, selectedPlaylistId*/ 9 && div1_data_id_value !== (div1_data_id_value = /*playlist*/ ctx[11].id)) {
     				attr_dev(div1, "data-id", div1_data_id_value);
     			}
 
@@ -3233,14 +3251,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(52:4) {#each playlists.filter((p) => (selectedPlaylistId ? selectedPlaylistId == p.id : true)) as playlist}",
+    		source: "(60:4) {#each playlists.filter((p) => (selectedPlaylistId ? selectedPlaylistId == p.id : true)) as playlist}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (82:4) {#if nextPlaylists && selectedPlaylistId == null}
+    // (90:4) {#if nextPlaylists && selectedPlaylistId == null}
     function create_if_block$1(ctx) {
     	let div;
     	let button;
@@ -3255,9 +3273,9 @@ var app = (function () {
     			t = text(/*loadMoreText*/ ctx[2]);
     			attr_dev(button, "class", "btn m-20");
     			set_style(button, "width", "20em");
-    			add_location(button, file$2, 83, 12, 3005);
+    			add_location(button, file$2, 91, 12, 3330);
     			attr_dev(div, "class", "text-center");
-    			add_location(div, file$2, 82, 8, 2966);
+    			add_location(div, file$2, 90, 8, 3291);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3283,7 +3301,7 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(82:4) {#if nextPlaylists && selectedPlaylistId == null}",
+    		source: "(90:4) {#if nextPlaylists && selectedPlaylistId == null}",
     		ctx
     	});
 
@@ -3318,10 +3336,11 @@ var app = (function () {
 
     			t = space();
     			if (if_block) if_block.c();
+    			attr_dev(div, "class", "border");
     			set_style(div, "overflow-y", "auto");
     			set_style(div, "border-radius", "1.2rem");
     			attr_dev(div, "id", "container-scroll");
-    			add_location(div, file$2, 50, 0, 1471);
+    			add_location(div, file$2, 58, 0, 1781);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3424,7 +3443,12 @@ var app = (function () {
     	let nextPlaylists = null;
     	let loadMoreText = "Load more";
 
-    	function loadMore() {
+    	function loadMore(e) {
+    		if (e) {
+    			scrollBackTo = e.currentTarget.offsetTop;
+    			needsToScrollBack = true;
+    		}
+
     		$$invalidate(2, loadMoreText = "Loading ...");
 
     		api.getPlaylists(parsedHash.access_token, nextPlaylists).then(p => {
@@ -3439,28 +3463,33 @@ var app = (function () {
     			scrollBackTo = e.currentTarget.offsetTop;
     			$$invalidate(3, selectedPlaylistId = id);
     		} else {
+    			needsToScrollBack = true;
     			$$invalidate(3, selectedPlaylistId = null);
     		}
     	}
 
     	let selectedPlaylistId = null;
     	let scrollBackTo = null;
+    	let needsToScrollBack = false;
 
     	afterUpdate(() => {
-    		if (!selectedPlaylistId) {
-    			console.log("scrolling back to", scrollBackTo);
+    		// when the user exits from a playlist view
+    		if (needsToScrollBack) {
+    			// console.log("scrolling back to", scrollBackTo);
     			api.scrollTo(document.getElementById("container-scroll"), scrollBackTo);
+
     			scrollBackTo = null;
+    			needsToScrollBack = false;
     		}
     	});
 
-    	// load the default batch
+    	// load the first batch of playlists
     	loadMore();
 
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<App> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<App> was created with unknown prop '${key}'`);
     	});
 
     	const func = p => selectedPlaylistId ? selectedPlaylistId == p.id : true;
@@ -3469,6 +3498,7 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		queryString,
     		afterUpdate,
+    		tick,
     		navigate,
     		api,
     		Playlist,
@@ -3479,7 +3509,8 @@ var app = (function () {
     		loadMore,
     		selectPlaylist,
     		selectedPlaylistId,
-    		scrollBackTo
+    		scrollBackTo,
+    		needsToScrollBack
     	});
 
     	$$self.$inject_state = $$props => {
@@ -3488,6 +3519,7 @@ var app = (function () {
     		if ("loadMoreText" in $$props) $$invalidate(2, loadMoreText = $$props.loadMoreText);
     		if ("selectedPlaylistId" in $$props) $$invalidate(3, selectedPlaylistId = $$props.selectedPlaylistId);
     		if ("scrollBackTo" in $$props) scrollBackTo = $$props.scrollBackTo;
+    		if ("needsToScrollBack" in $$props) needsToScrollBack = $$props.needsToScrollBack;
     	};
 
     	if ($$props && "$$inject" in $$props) {

@@ -1,6 +1,6 @@
 <script>
     import queryString from "query-string";
-    import { afterUpdate } from "svelte";
+    import { afterUpdate, tick } from "svelte";
     import { navigate } from "svelte-routing";
     import api from "./api";
     import Playlist from "./Playlist.svelte";
@@ -13,7 +13,11 @@
     let nextPlaylists = null;
     let loadMoreText = "Load more";
 
-    function loadMore() {
+    function loadMore(e) {
+        if (e) {
+            scrollBackTo = e.currentTarget.offsetTop;
+            needsToScrollBack = true;
+        }
         loadMoreText = "Loading ...";
         api.getPlaylists(parsedHash.access_token, nextPlaylists)
             .then((p) => {
@@ -29,26 +33,30 @@
             scrollBackTo = e.currentTarget.offsetTop;
             selectedPlaylistId = id;
         } else {
+            needsToScrollBack = true;
             selectedPlaylistId = null;
         }
     }
 
     let selectedPlaylistId = null;
     let scrollBackTo = null;
+    let needsToScrollBack = false;
 
     afterUpdate(() => {
-        if (!selectedPlaylistId) {
-            console.log("scrolling back to", scrollBackTo);
+        // when the user exits from a playlist view
+        if (needsToScrollBack) {
+            // console.log("scrolling back to", scrollBackTo);
             api.scrollTo(document.getElementById("container-scroll"), scrollBackTo);
             scrollBackTo = null;
+            needsToScrollBack = false;
         }
     });
 
-    // load the default batch
+    // load the first batch of playlists
     loadMore();
 </script>
 
-<div style="overflow-y: auto; border-radius: 1.2rem;" id="container-scroll">
+<div class="border" style="overflow-y: auto; border-radius: 1.2rem;" id="container-scroll">
     {#each playlists.filter((p) => (selectedPlaylistId ? selectedPlaylistId == p.id : true)) as playlist}
         <div
             class="playlist d-flex flex-column"

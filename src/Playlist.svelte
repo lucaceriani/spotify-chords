@@ -20,7 +20,7 @@
                 next = s.next;
                 loadMoreText = "Load more";
             })
-            .catch(() => navigate("/error/timeout"));
+            .catch(() => navigate("/error/api"));
     }
     loadMore(); // load first 100 songs
 

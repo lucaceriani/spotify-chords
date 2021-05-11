@@ -55,8 +55,7 @@ function cleanTitle(title) {
 }
 
 function scrollTo(container, elementOffset) {
-    console.log(container, elementOffset, container.scrollTop);
-
+    // console.log(container, elementOffset, container.scrollTop);
     container.scrollTop = elementOffset - container.offsetTop
 }
 

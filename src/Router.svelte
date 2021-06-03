@@ -4,6 +4,7 @@
     import App from "./App.svelte";
     import Playlist from "./Playlist.svelte";
     import Error from "./Error.svelte";
+    import Redirect from "./Redirect.svelte";
 </script>
 
 <div class="container pb-10 px-5 grid h-full">
@@ -27,7 +28,9 @@
         </h3>
     </header>
     <Router>
+        <Route path="/redirect" component={Redirect} />
         <Route path="/app" component={App} />
+        <!-- <Route path="/app/:playlistId" component={App} /> -->
         <Route path="/error/:reason" component={Error} />
         <Route path="/" component={Login} />
     </Router>

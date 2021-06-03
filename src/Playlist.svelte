@@ -11,7 +11,21 @@
     let next = null;
     let loadMoreText = "Load more";
 
+    function loadLikedTracks() {
+        loadMoreText = "...";
+        api.getLikedTracks(token, next)
+            .then((s) => {
+                console.log(s);
+                songs = [...songs, ...s.songs];
+                next = s.next;
+                loadMoreText = "Load more";
+            })
+            .catch(() => navigate("/error/api"));
+    }
+
     function loadMore() {
+        if (playlistId == "liked-tracks") return loadLikedTracks();
+
         loadMoreText = "...";
         api.getTracks(token, playlistId, next)
             .then((s) => {
@@ -22,6 +36,7 @@
             })
             .catch(() => navigate("/error/api"));
     }
+
     loadMore(); // load first 100 songs
 
     function getLink(song) {

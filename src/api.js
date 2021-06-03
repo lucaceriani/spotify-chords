@@ -39,6 +39,22 @@ function getTracks(token, playlistId, next = null) {
         }))
 }
 
+function getLikedTracks(token, next = null) {
+    let url = `${endpoint}/me/tracks`
+    if (next) url = next;
+
+    return callApi(token, url, {
+        limit: 50
+    })
+        .then((s) => ({
+            songs: s.items.map((el) => ({
+                artist: (el.track.album.artists[0] || { name: "" }).name, // only the first arist is considered
+                title: el.track.name || "",
+            })),
+            next: s.next
+        }))
+}
+
 function getName(token, playlistId) {
     let url = `${endpoint}/playlists/${playlistId}`
     return callApi(token, url, {
@@ -63,6 +79,7 @@ function scrollTo(container, elementOffset) {
 export default {
     getPlaylists,
     getTracks,
+    getLikedTracks,
     getName,
     cleanTitle,
     scrollTo,

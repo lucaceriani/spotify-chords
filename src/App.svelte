@@ -1,17 +1,34 @@
 <script>
-    import queryString from "query-string";
-    import { afterUpdate, tick } from "svelte";
+    import { afterUpdate, onMount, tick } from "svelte";
     import { navigate } from "svelte-routing";
     import api from "./api";
     import Playlist from "./Playlist.svelte";
 
-    const parsedHash = queryString.parse(location.hash);
+    const token = localStorage.getItem("token");
+    // console.log(token);
+    if (!token) navigate("/error/login");
 
-    if (!parsedHash.access_token) navigate("/error/login");
-
-    let playlists = [];
+    let playlists = [
+        {
+            images: [{ url: "/liked.jpg" }],
+            name: "Liked tracks",
+            id: "liked-tracks",
+        },
+    ];
     let nextPlaylists = null;
     let loadMoreText = "Load more";
+
+    window.onhashchange = (e) => {
+        // console.log(e);
+        // same as selecting the same playlist
+        if (/#.+$/.test(e.oldURL)) {
+            // if i am currently inside one playlist
+            selectPlaylist(null, selectedPlaylistId);
+        } else {
+            selectedPlaylistId = window.location.hash.substring(1);
+        }
+        // console.log(e);
+    };
 
     function loadMore(e) {
         if (e) {
@@ -19,7 +36,7 @@
             needsToScrollBack = true;
         }
         loadMoreText = "Loading ...";
-        api.getPlaylists(parsedHash.access_token, nextPlaylists)
+        api.getPlaylists(token, nextPlaylists)
             .then((p) => {
                 playlists = [...playlists, ...p.items];
                 nextPlaylists = p.next;
@@ -28,11 +45,13 @@
             .catch(() => navigate("/error/api"));
     }
 
-    async function selectPlaylist(e, id) {
+    function selectPlaylist(e, id) {
         if (selectedPlaylistId != id) {
+            navigate("#" + id);
             scrollBackTo = e.currentTarget.offsetTop;
             selectedPlaylistId = id;
         } else {
+            location.hash = "";
             needsToScrollBack = true;
             selectedPlaylistId = null;
         }
@@ -45,7 +64,7 @@
     afterUpdate(() => {
         // when the user exits from a playlist view
         if (needsToScrollBack) {
-            // console.log("scrolling back to", scrollBackTo);
+            console.log("scrolling back to", scrollBackTo);
             api.scrollTo(document.getElementById("container-scroll"), scrollBackTo);
             scrollBackTo = null;
             needsToScrollBack = false;
@@ -63,7 +82,9 @@
             class:h-full={!!selectedPlaylistId}
             class:is-big={!!selectedPlaylistId}
             data-id={playlist.id}
-            on:click={(e) => selectPlaylist(e, playlist.id)}
+            on:click={(e) => {
+                selectPlaylist(e, playlist.id);
+            }}
         >
             <div class="d-flex p-20 border-bottom">
                 {#if playlist.images.length > 0}
@@ -81,7 +102,7 @@
             {#if !!selectedPlaylistId}
                 <div class="d-flex flex-column py-10" style="flex: 1 1 1px">
                     <div style="flex: 1 1 1px; overflow-y:auto">
-                        <Playlist playlistId={selectedPlaylistId} token={parsedHash.access_token} />
+                        <Playlist playlistId={selectedPlaylistId} {token} />
                     </div>
                 </div>
             {/if}
